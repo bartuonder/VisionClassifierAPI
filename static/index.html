@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vision Classifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="app">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <div>
+          <h1>Vision Classifier</h1>
+          <p>ViT ile görüntü sınıflandırma</p>
+        </div>
+      </div>
+      <div id="user-bar" class="user-bar hidden">
+        <span id="user-greeting"></span>
+        <button type="button" id="logout-btn" class="btn btn-ghost">Çıkış</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Auth -->
+      <section id="auth-section" class="card auth-card">
+        <div class="tabs">
+          <button type="button" class="tab active" data-tab="login">Giriş</button>
+          <button type="button" class="tab" data-tab="signup">Kayıt</button>
+        </div>
+
+        <form id="login-form" class="form">
+          <label>
+            Kullanıcı adı
+            <input type="text" name="username" required autocomplete="username">
+          </label>
+          <label>
+            Şifre
+            <input type="password" name="password" required autocomplete="current-password">
+          </label>
+          <button type="submit" class="btn btn-primary">Giriş yap</button>
+        </form>
+
+        <form id="signup-form" class="form hidden">
+          <label>
+            Kullanıcı adı
+            <input type="text" name="username" required autocomplete="username">
+          </label>
+          <label>
+            E-posta
+            <input type="email" name="email" required autocomplete="email">
+          </label>
+          <label>
+            Şifre <span class="hint">(9–20 karakter)</span>
+            <input type="password" name="password" required minlength="9" maxlength="20" autocomplete="new-password">
+          </label>
+          <button type="submit" class="btn btn-primary">Hesap oluştur</button>
+        </form>
+
+        <div id="auth-error" class="alert alert-error hidden"></div>
+        <div id="auth-success" class="alert alert-success hidden"></div>
+      </section>
+
+      <!-- Dashboard -->
+      <section id="dashboard-section" class="hidden">
+        <div class="dashboard-grid">
+          <div class="card upload-card">
+            <h2>Görüntü yükle</h2>
+            <p class="subtitle">Bir resim seçin; sınıflandırma arka planda çalışır.</p>
+
+            <div id="drop-zone" class="drop-zone">
+              <input type="file" id="file-input" accept="image/*" hidden>
+              <div class="drop-zone-inner">
+                <span class="drop-icon">↑</span>
+                <p>Sürükleyip bırakın veya <button type="button" id="browse-btn" class="link-btn">dosya seçin</button></p>
+                <p class="hint">PNG, JPG, WEBP</p>
+              </div>
+              <img id="preview-img" class="preview-img hidden" alt="Önizleme">
+            </div>
+
+            <button type="button" id="upload-btn" class="btn btn-primary" disabled>Sınıflandır</button>
+            <div id="upload-error" class="alert alert-error hidden"></div>
+          </div>
+
+          <div class="card result-card">
+            <h2>Sonuç</h2>
+            <div id="result-empty" class="empty-state">
+              <span class="empty-icon">◎</span>
+              <p>Henüz bir görev yok. Bir görüntü yükleyerek başlayın.</p>
+            </div>
+            <div id="result-content" class="hidden">
+              <div class="status-row">
+                <span class="label">Durum</span>
+                <span id="task-status" class="badge">—</span>
+              </div>
+              <div class="status-row">
+                <span class="label">Görev ID</span>
+                <span id="task-id" class="mono">—</span>
+              </div>
+              <div id="prediction-block" class="prediction-block hidden">
+                <div class="prediction-label" id="prediction-label">—</div>
+                <div class="confidence-bar">
+                  <div id="confidence-fill" class="confidence-fill"></div>
+                </div>
+                <p class="confidence-text"><span id="confidence-value">0</span>% güven</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Vision Classifier API · google/vit-base-patch16-224</span>
+      <a href="/docs" target="_blank" rel="noopener">API Docs</a>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

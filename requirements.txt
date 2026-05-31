@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic[email]
+sqlalchemy
+alembic
+celery
+pika
+transformers
+Pillow
+pytest
+python-dotenv
+starlette
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt>=4.0,<5.0
+email-validator
