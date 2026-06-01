@@ -1,24 +1,28 @@
-import torch
-from transformers import ViTImageProcessor, ViTForImageClassification
-from PIL import Image
+MODEL_NAME = "google/vit-base-patch16-224"
 
 
 class VisionClassifier:
     def __init__(self):
 
-        model_name = "google/vit-base-patch16-224"
+        import torch
+        from transformers import ViTImageProcessor, ViTForImageClassification
+
+        self._torch = torch
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"[*] Yapay Zeka Modeli Yükleniyor... Kullanılan Donanım: {self.device}")
 
-        self.processor = ViTImageProcessor.from_pretrained(model_name)
+        self.processor = ViTImageProcessor.from_pretrained(MODEL_NAME)
 
-        self.model = ViTForImageClassification.from_pretrained(model_name).to(self.device)
+        self.model = ViTForImageClassification.from_pretrained(MODEL_NAME).to(self.device)
         self.model.eval()
 
     def predict(self, image_path: str):
 
         try:
+            from PIL import Image
+
+            torch = self._torch
 
             image = Image.open(image_path).convert("RGB")
 

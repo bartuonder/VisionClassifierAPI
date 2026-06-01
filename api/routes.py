@@ -74,5 +74,6 @@ async def get_classification_status(
         "status": task.status,
         "prediction": task.prediction_label,
         "confidence": task.confidence_score,
+        "error": task.error_message,
         "created_at": task.created_at
     }

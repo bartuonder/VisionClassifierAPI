@@ -9,6 +9,7 @@ pika
 transformers
 Pillow
 pytest
+httpx
 python-dotenv
 starlette
 python-jose[cryptography]

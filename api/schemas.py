@@ -39,6 +39,7 @@ class TaskStatusResponse(BaseModel):
     status: str
     prediction: Optional[str] = None
     confidence: Optional[float] = None
+    error: Optional[str] = None
     created_at: datetime
 
     class Config:

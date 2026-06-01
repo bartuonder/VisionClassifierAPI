@@ -1,5 +1,5 @@
 from db.database import Base
-from sqlalchemy import Column,Integer, String,Boolean, ForeignKey, Float, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 
@@ -24,5 +24,6 @@ class ImageTask(Base):
     status = Column(String, default="pending")
     prediction_label = Column(String, nullable=True)
     confidence_score = Column(Float, nullable=True)
+    error_message = Column(String, nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     owner = relationship("Users", back_populates="tasks")

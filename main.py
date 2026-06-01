@@ -15,10 +15,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
+cors_origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "*").split(",") if o.strip()]
+allow_all_origins = cors_origins == ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=not allow_all_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -31,6 +34,11 @@ FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 if os.path.isdir(FRONTEND_DIR):
     app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+
+@app.get("/health", tags=["health"])
+def health_check():
+    return {"status": "ok"}
+
 
 @app.get("/", include_in_schema=False)
 def root():

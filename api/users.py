@@ -34,6 +34,9 @@ async def change_password(user: user_dependency,
 
     user_model = db.query(Users).filter(Users.id == user.get("id")).first()
 
+    if user_model is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User is not found in database.")
+
     if not bcrypt_context.verify(user_ver.password, user_model.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Password doesn't match.")
 

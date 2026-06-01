@@ -30,9 +30,11 @@ def process_image_task(self, task_id: int):
             task.prediction_label = result.get("label")
             task.confidence_score = result.get("confidence")
             task.status = "completed"
+            task.error_message = None
             logger.info(f"[+] Successful: {task_id} -> {task.prediction_label} (%{task.confidence_score})")
         else:
             task.status = "failed"
+            task.error_message = result.get("error")
             logger.error(f"[-] AI Error: Task {task_id} -> {result.get('error')}")
 
         db.commit()
@@ -50,6 +52,7 @@ def process_image_task(self, task_id: int):
             task = db.query(ImageTask).filter(ImageTask.id == task_id).first()
             if task:
                 task.status = "failed"
+                task.error_message = str(e)
                 db.commit()
             return {"status": "failed", "message": "The maximum number of attempts has been reached."}
 

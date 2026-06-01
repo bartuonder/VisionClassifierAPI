@@ -5,3 +5,5 @@ __pycache__
 *.db
 uploads/
 .idea
+.pytest_cache/
+.env.example
